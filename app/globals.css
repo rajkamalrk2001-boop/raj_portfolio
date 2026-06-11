@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+:root {
+  --background: #fafaf9;
+  --foreground: #16161a;
+  --muted: #5f5f6b;
+  --card: #ffffff;
+  --line: rgba(22, 22, 26, 0.1);
+
+  --accent-violet: #7c5cff;
+  --accent-cyan: #00b8d4;
+  --accent-amber: #f59e0b;
+  --accent-rose: #f43f5e;
+  --accent-emerald: #10b981;
+
+  --dot: rgba(22, 22, 26, 0.07);
+}
+
+.dark {
+  --background: #0c0c10;
+  --foreground: #f2f2f5;
+  --muted: #9b9ba8;
+  --card: #15151b;
+  --line: rgba(242, 242, 245, 0.1);
+
+  --accent-violet: #9d85ff;
+  --accent-cyan: #22d3ee;
+  --accent-amber: #fbbf24;
+  --accent-rose: #fb7185;
+  --accent-emerald: #34d399;
+
+  --dot: rgba(242, 242, 245, 0.06);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Kill stray horizontal scroll without breaking position: sticky */
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+::selection {
+  background: var(--accent-violet);
+  color: #fff;
+}
+
+section {
+  scroll-margin-top: 96px;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Serif italic accent for highlighted heading words */
+.font-serif-accent {
+  font-family: var(--font-playfair);
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+/* Gradient text used on headings */
+.gradient-text {
+  background: linear-gradient(
+    100deg,
+    var(--accent-violet),
+    var(--accent-cyan) 55%,
+    var(--accent-emerald)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Soft glow blobs behind the hero */
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Preloader: lock scrolling while the curtain is up */
+html.loading {
+  overflow: hidden;
+}
+
+/* Custom cursor replaces the native one on fine pointers */
+@media (pointer: fine) {
+  .has-custom-cursor,
+  .has-custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* Preloader word swap */
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* CTA buttons: gradient sweeps up from below on hover */
+.cta {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: linear-gradient(120deg, var(--accent-violet), var(--accent-cyan));
+  transform: translateY(102%);
+  transition: transform 0.45s cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+.cta:hover::before {
+  transform: translateY(0);
+}
+.cta > * {
+  position: relative;
+  z-index: 1;
+}
+.cta:hover {
+  color: #fff;
+}
+
+/* Logo: "RAJ KAMAL" collapses to "RK" on scroll */
+.logo-collapse {
+  display: inline-flex;
+  max-width: 5em;
+  overflow: hidden;
+  white-space: pre;
+  transition: max-width 0.55s cubic-bezier(0.65, 0.05, 0.36, 1), opacity 0.3s ease 0.15s;
+}
+.logo-collapsed .logo-collapse {
+  max-width: 0;
+  opacity: 0;
+  transition: max-width 0.55s cubic-bezier(0.65, 0.05, 0.36, 1), opacity 0.2s ease;
+}
+
+/* Email link: gradient underline grows on hover */
+.email-link {
+  background-image: linear-gradient(90deg, var(--accent-violet), var(--accent-cyan));
+  background-size: 0% 3px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  padding-bottom: 8px;
+  transition: background-size 0.5s cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+.email-link:hover {
+  background-size: 100% 3px;
+}
+
+/* Fade the edges of the skills marquee */
+.marquee-mask {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
